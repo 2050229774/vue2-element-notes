@@ -1,4 +1,4 @@
-# vue2-element-mall
+# vue2-element-notes
 
 ## Project setup
 ```
@@ -13,6 +13,11 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
+```
+
+### 一款个人笔记查询网站
+```
+个人笔记展示与查询即更改
 ```
 
 ### Customize configuration
