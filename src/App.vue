@@ -1,12 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-    </div>
+    <tab-bar1></tab-bar1>
     <router-view/>
   </div>
 </template>
 
-<style lang="scss">
+<script>
 
+
+	import TabBar1 from './components/business/TabBar1.vue'
+
+
+	export default {
+		name: "App",
+		components: {
+			TabBar1
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import './assets/scss/base.scss';
 </style>

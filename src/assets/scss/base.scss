@@ -1,0 +1,18 @@
+@import "normalize.scss";
+
+$yellow : #F4C76B;
+
+body {
+  padding: 0;
+  background-color: #FFFFFF;
+  min-width: 1200px;
+  width: expression(document.body.clientWidth <=1200 ? "1200px": "auto");
+}
+div{
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}

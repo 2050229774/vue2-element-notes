@@ -17,7 +17,7 @@ npm run build
 
 ### 一款个人笔记查询网站
 ```
-个人笔记展示与查询即更改
+个人笔记展示与查询及更改
 ```
 
 ### Customize configuration

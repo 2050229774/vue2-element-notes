@@ -1,10 +1,10 @@
 <template>
-  <div>家目录</div>
+  <div>比例分布</div>
 </template>
 
 <script>
   export default {
-    name: "Home"
+    name: "ProportionalDistribution"
   }
 </script>
 
