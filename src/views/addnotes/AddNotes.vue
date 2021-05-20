@@ -34,21 +34,28 @@
           <el-col :span="20">
             <el-form-item
               :label="'二级标题'+index"
-              :prop="'concreteContent.'+index+'.areasvalue'"
+              :prop="'concreteContent.'+index+'.titleContent'"
               :rules="rules.contentTitleInput"
               :key="ct.areaskey">
-              <el-input v-model="ct.areasvalue" placeholder="请输入内容标题" clearable></el-input>
+              <el-input v-model="ct.titleContent" placeholder="请输入内容标题" clearable></el-input>
             </el-form-item>
             <el-form-item
               :label="'文本内容'+index"
-              :prop="'concreteContent.'+index+'.contentvalue'"
+              :prop="'concreteContent.'+index+'.content[0]'"
               :rules="rules.npmmm"
-              :key="ct.contentvaluekey">
-              <el-input type="textarea" v-model="ct.contentvalue" placeholder="请输入内容" autosize></el-input>
+              :key="ct.titleContentkey">
+              <el-input type="textarea" v-model="ct.content[0]" placeholder="请输入内容" autosize></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-button type="danger" @click.prevent="removeDomain(ct)">删除</el-button>
+           <el-popconfirm
+              title="删除后不可恢复,确定删除吗？"
+              icon="el-icon-info"
+              icon-color="red"
+              @confirm = "removeDomain(ct)"
+            >
+            <el-button  slot="reference" type="danger">删除</el-button>
+            </el-popconfirm>
           </el-col>
         </el-row>
         <div class="button-set">
@@ -63,7 +70,9 @@
 
 <script>
   import {
-    titleData
+    titleData,
+    noteData,
+    noteContenData
   } from '../notequery/noteData/notedata.js'
 
   export default {
@@ -82,13 +91,23 @@
         callback();
       };
       return {
-        titleData,
+        titleData,  //顶部导航内容
+        noteData,  //侧边导航内容
+        noteContenData,  //具体内容
         fromt: {
           selectValue: "",
           titleInput: "",
           concreteContent: [{
-            contentvalue: '',
-            areasvalue: ''
+            titleContent: '',
+            content: ['']
+          }]
+        },
+        fromtcopy: {
+          selectValue: "",
+          titleInput: "",
+          concreteContent: [{
+            titleContent: '',
+            content: ['']
           }]
         },
         rules: {
@@ -115,17 +134,44 @@
     },
     methods: {
       open2() {
-        this.$message({
-          message: '提交成功，点击立即查看',
-          type: 'success',
-          showClose: true,
-        });
+         this.$confirm('是否立即查看添加内容?', '提示', {
+           confirmButtonText: '确定',
+           cancelButtonText: '继续添加',
+           type: 'warning'
+           }).then(() => {
+             // 做一个跳转
+              this.$router.push('notequery')
+              // 做一个事件总线
+
+
+           }).catch(() => {
+              // 做一个清空
+              this.fromt = this.fromtcopy;
+              this.$message({
+              type: 'success',
+              showClose: true,
+              center: true,
+              message: '已清空内容可继续添加'
+          });
+          });
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.fromt)
+            // 提交成功，操作对象
             this.open2()
+            const selectValue = this.fromt.selectValue;
+            const titleInput = this.fromt.titleInput.split(' ');
+            const cct = this.fromt.concreteContent
+            const noteContenDataObj= eval('this.noteContenData.'+selectValue);
+            // 添加侧边导航栏内容
+            eval('this.noteData.'+selectValue+'.data.push(titleInput)')
+            //添加内容
+            noteContenDataObj[titleInput] = {
+              title: titleInput[0],
+              data: cct
+              }
+
           } else {
             console.log('error submit!!');
             return false;
@@ -137,10 +183,10 @@
       },
       addDomain() {
         this.fromt.concreteContent.push({
-          contentvalue: '',
-          areasvalue: '',
+          titleContent: '',
+          content: [''],
           areaskey: Date.now(),
-          contentvaluekey: Date.now()+2
+          titleContentkey: Date.now()+2
         });
       },
       open4(){

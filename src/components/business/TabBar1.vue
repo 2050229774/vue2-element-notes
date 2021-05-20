@@ -14,7 +14,7 @@
             <el-menu-item index="/notequery">笔记查询</el-menu-item>
           </el-col>
           <el-col :span="2">
-            <el-menu-item index="/proportionaldistribution">比例分布</el-menu-item>
+            <el-menu-item index="/proportionaldistribution">BUG查询</el-menu-item>
           </el-col>
           <el-col :span="8" :offset="3">
             <search-box class="search-box"></search-box>
